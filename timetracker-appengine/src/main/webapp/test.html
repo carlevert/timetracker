@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+</head>
+<body>
+<script>
+$(document).ready(() => {
+	
+	let from = new Date(2017,2,7,16,30).toISOString();
+	let to = new Date(2017,2,8,8,0).toISOString();
+	
+	let breakPeriod = { from, to };
+	
+	$.ajax({
+		url: "http://localhost:8080/register",
+		method: "post",
+		data: breakPeriod,
+		success: resp => {
+			console.log(resp);
+			let r = {
+					id: resp.id,
+					from: new Date(resp.from),
+					to: new Date(resp.to),
+					note: resp.note,
+					deleted: resp.deleted,
+					adjustment: resp.adjustment
+			};
+			console.log(r);
+		},
+		error: console.log
+	});
+	
+});
+</script>
+
+</body>
+</html>
