@@ -1,11 +1,11 @@
 var path = require("path");
 module.exports = {
     entry: [
-        './src/calendar.ts'
+        './index.ts'
     ],
     output: {
-        path: path.resolve(__dirname, "./wwwroot"),
-        filename: "bundle.js"
+        path: path.resolve(__dirname, "./"),
+        filename: "index.js"
     },
     resolve: {
         extensions: [
@@ -26,7 +26,7 @@ module.exports = {
         ]
     },
     devServer: {
-        contentBase: path.join(__dirname, "./wwwroot")
+        contentBase: path.join(__dirname, "./")
     },
     devtool: "source-map"
 };

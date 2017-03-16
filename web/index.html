@@ -1,0 +1,35 @@
+<html>
+
+<head>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<style>
+    .row {
+        display: flex; 
+        outline: 1px solid red;       
+    }
+    .row div {
+        width: 100px;
+        overflow: hidden;
+        outline: 1px solid blue;       
+
+    }
+    </style>
+
+</head>
+
+<body>
+
+
+    <div data-bind="foreach: breaks">
+        <div class="row">
+            <div data-bind="text: id"></div>
+        <div data-bind="text: from"></div>
+        <div data-bind="text: to"></div>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+
+</html>

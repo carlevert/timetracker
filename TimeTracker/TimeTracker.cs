@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Drawing;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Web.Script.Serialization;
 
 namespace TimeTracker
 {
@@ -12,12 +15,20 @@ namespace TimeTracker
         private Point mouseLocation;
         private DateTime timerStart;
         static HttpClient client = new HttpClient();
+        private Break b;
+        static bool done = false;
 
-        public TimeTracker(Rectangle Bounds)
+        public TimeTracker(Rectangle bounds)
         {
             InitializeComponent();
-            this.Bounds = Bounds;
-            this.timerStart = DateTime.Now;
+            Bounds = bounds;
+
+            b = new Break();
+            b.from = DateTime.Now.Ticks;
+            
+            client.BaseAddress = new Uri("http://localhost:8080/");
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
         }
 
@@ -38,13 +49,14 @@ namespace TimeTracker
 
         private void TimeTracker_MouseClick(object sender, MouseEventArgs e)
         {
-            Close();
-            //Application.Exit();
+            Console.WriteLine("MouseMove");
+            Register(b);
         }
 
         private void TimeTracker_KeyPress(object sender, KeyPressEventArgs e)
         {
-            //Application.Exit();
+            Console.WriteLine("KeyPress");
+            Application.Exit();
         }
 
         private void TimeTracker_MouseMove(object sender, MouseEventArgs e)
@@ -54,8 +66,8 @@ namespace TimeTracker
                 // Terminate if mouse is moved a significant distance
                 if (Math.Abs(mouseLocation.X - e.X) > 5 ||
                     Math.Abs(mouseLocation.Y - e.Y) > 5)
-                    Close();
-                    // Application.Exit();
+                    Register(b);
+
             }
 
             // Update current mouse location
@@ -65,22 +77,27 @@ namespace TimeTracker
 
         private void timer_Tick(object sender, EventArgs e)
         {
-            var duration = DateTime.Now - this.timerStart;
+            var duration = new TimeSpan(DateTime.Now.Ticks - b.from);
             label.Text = duration.ToString("c");
         }
 
-        static async Task RunAsync()
-        {
-            // New code:
-            client.BaseAddress = new Uri("http://localhost:55268/");
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            Console.ReadLine();
-        }
 
         public async Task Register(Break b)
         {
+            if (done)
+                return;
+            done = true;
+
+            b.to = DateTime.Now.Ticks;
+            
+
+            var json = new JavaScriptSerializer().Serialize(b);
+            var data = new StringContent(json);
+            Console.WriteLine(data);
+
+            var response = await client.PostAsync("/register", data);
+            Console.WriteLine(response);
+            Application.Exit();
         }
 
 
