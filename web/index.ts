@@ -74,18 +74,20 @@ class Break {
 class BreaksViewModel {
 
     public breaks = ko.observableArray<Break>();
+    private $newDialog: JQuery;
 
     public newBreakInput = {
         from: ko.observable<string>("2016-10-10 14:20"),
         to: ko.observable<string>("2016-10-10 15:20"),
-        note: ko.observable<string>()
+        note: ko.observable<string>(),
+        txtAdjustment: ko.observable<string>()
     };
 
     constructor() {
         this.fetch();
-        $("#newBreak").dialog({
+        this.$newDialog = $("#newBreak").dialog({
             position: {
-                my: "center top", at: "center", of: event
+                my: "center", at: "center", of: window
             },
             modal: true,
             show: { effect: "scale", duration: 100 },
@@ -109,6 +111,10 @@ class BreaksViewModel {
             .catch(function (error) {
                 console.log(error);
             });
+    }
+
+    public cmdClose() {
+        this.$newDialog.dialog("close");
     }
 
     public cmdSave() {
@@ -155,7 +161,6 @@ class BreaksViewModel {
             title: "TimeTracker",
             closeOnEscape: true
         });
-
 
     }
 
