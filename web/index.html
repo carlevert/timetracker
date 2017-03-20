@@ -1,34 +1,117 @@
 <html>
 
 <head>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.css"></link>
+    <link rel="stylesheet" type="text/css" href="jquery-ui/jquery-ui.css"></link>
+    <link rel="stylesheet" type="text/css" href="jquery-ui/jquery-ui.theme.min.css"></link>
+    <link rel="stylesheet" type="text/css" href="jquery-ui/jquery-ui.structure.min.css"></link>
+    <style>
+        body {
+            font: menu;
+            margin: 0;
+        }
 
-<style>
-    .row {
-        display: flex; 
-        outline: 1px solid red;       
-    }
-    .row div {
-        width: 100px;
-        overflow: hidden;
-        outline: 1px solid blue;       
+.ui-corner-all {
+    border-radius: 0px;
+}
 
-    }
+.ui-dialog.ui-widget {
+    padding: 0px;
+    box-shadow: 0px 0px 20px 0px black;
+    border: none;
+}
+
+
+
+.ui-dialog-titlebar.ui-widget-header {
+    background-color: #236fea;
+    margin: 0;
+    border: none;
+    font: menu !important;
+    font-weight: 300;
+    color: white;
+}
+
+.ui-dialog-titlebar-close {
+    display: none;
+}
+
+.ui-widget-overlay.ui-front {
+    background-color: rgba(0,0,0,0.3);
+    opacity: 1;
+}
+
+.container {
+    max-width: 600px;
+    min-width: 400px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    height: 100vh;
+}
+
+        .caption {
+            font: menu;
+            font-weight: 300;
+            font-size: 50px;
+            text-align: center;
+        }
+        
+        .row {
+            display: flex;
+        }
+        
+        .row .cell {
+            width: 100px;
+            overflow: hidden;
+            border-bottom: 1px solid #ccc;
+            padding: 4px 6px;
+        }
+
+        .row .cell.from {
+            width: 150px;
+        }
+        #detail {
+            display: block;
+        }
+
+button {
+    background-color: #ddd;
+    border: 2px solid #ddd;
+    outline: none;
+    font: menu;
+}
+button:hover {
+    background-color: #eee;
+    border: 2px solid #ccc;
+}
+button:active {
+    background-color: #999;
+    border-color: #666;
+}
+
     </style>
 
 </head>
 
 <body>
+    <div class="container">
+    <div id="detail">Dialog  <button>asdfasd</button> </div>
+    <div class="caption">TimeTracker&trade;</div>
 
-
+    <div class="row header">
+        <div class="cell from">From</div>
+        <div class="cell to">To</div>
+        <div class="cell duration">Duration</div>
+    </div>
     <div data-bind="foreach: breaks">
-        <div class="row">
-            <div data-bind="text: id"></div>
-        <div data-bind="text: from"></div>
-        <div data-bind="text: to"></div>
+        <div class="row" data-bind="click: $parent.cmdDetail">
+            <div class="cell from" data-bind="text: txtFrom"></div>
+            <div class="cell to" data-bind="text: txtTo"></div>
+            <div class="cell duration" data-bind="text: txtDuration"></div>
         </div>
     </div>
-
+</div>
     <script src="index.js"></script>
 </body>
 

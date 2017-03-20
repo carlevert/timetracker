@@ -10,6 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "@types/axios": "^0.14.0",
+    "@types/jquery": "^2.0.41",
+    "@types/jqueryui": "^1.11.32",
     "@types/knockout": "^3.4.40",
     "axios": "^0.15.3",
     "immutable": "^3.8.1",
