@@ -17,20 +17,19 @@ public class RegisterServlet extends HttpServlet {
 	protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException 
 	{ 
 	    resp.setHeader("Access-Control-Allow-Origin", "*");
+	    resp.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
 	}
 
 	
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		
+		response.setHeader("Access-Control-Allow-Origin", "*");
 		OfyService.registerEntities();
 
 		String strRequest = CharStreams.toString(request.getReader());
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 		Break b = objectMapper.readValue(strRequest, Break.class);
-		
-
 		
 		ofy().save().entity(b).now();
 		
