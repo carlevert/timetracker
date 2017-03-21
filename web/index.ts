@@ -2,8 +2,7 @@ import axios from "axios";
 import * as ko from "knockout";
 import * as moment from "moment"
 import * as $ from "jquery";
-import "./jquery-ui/jquery-ui.min.js";
-
+import "jquery-ui/ui/widgets/dialog";
 
 interface RegisterData {
     id: number;
@@ -77,7 +76,7 @@ class BreaksViewModel {
 
     public breaks = ko.observableArray<Break>();
     private $newDialog: JQuery;
-
+    public calendar: JQuery = undefined;
     public newBreakInput = {
         from: ko.observable<string>("2016-10-10 14:20"),
         to: ko.observable<string>("2016-10-10 15:20"),
@@ -86,25 +85,25 @@ class BreaksViewModel {
     };
 
     constructor() {
-        // axios.defaults.baseURL = "http://localhost:8080/",
-        axios.defaults.baseURL = "https://timetracker-160918.appspot.com/",
-            axios.defaults.timeout = 1000;
+        // axios.defaults.baseURL = "http://localhost:8080/";
+        axios.defaults.baseURL = "https://timetracker-160918.appspot.com/";
+        axios.defaults.timeout = 1000;
 
         this.fetch();
-        this.$newDialog = $("#newBreak").dialog({
-            position: {
-                my: "center", at: "center", of: window
-            },
-            modal: true,
-            show: { effect: "scale", duration: 100 },
-            create: (event, ui) => {
+        // this.$newDialog = $("#newBreak").dialog({
+        //     position: {
+        //         my: "center", at: "center", of: window
+        //     },
+        //     modal: true,
+        //     show: { effect: "scale", duration: 100 },
+        //     create: (event, ui) => {
 
-            },
-            close: (event, ui) => console.log(event, ui),
-            resizable: false,
-            title: "TimeTracker",
-            closeOnEscape: true
-        });
+        //     },
+        //     close: (event, ui) => console.log(event, ui),
+        //     resizable: false,
+        //     title: "TimeTracker",
+        //     closeOnEscape: true
+        // });
     }
 
     public fetch = () => {
@@ -150,39 +149,53 @@ class BreaksViewModel {
     }
 
 
-    public cmdDetail(b: Break, event: MouseEvent) {
+    // public cmdDetail(b: Break, event: MouseEvent) {
+    //     $("#calendar").dialog({
+    //         position: {
+    //             my: "center top", at: "center", of: event
+    //         },
+    //         modal: true,
+    //         show: { effect: "scale", duration: 100 },
+    //         create: (event, ui) => {
 
-        $("#detail").dialog({
-            position: {
-                my: "center top", at: "center", of: event
-            },
-            modal: true,
-            show: { effect: "scale", duration: 100 },
-            create: (event, ui) => {
+    //         },
+    //         close: (event, ui) => console.log(event, ui),
+    //         resizable: false,
+    //         title: "TimeTracker",
+    //         closeOnEscape: true
+    //     });
 
-            },
-            close: (event, ui) => console.log(event, ui),
-            resizable: false,
-            title: "TimeTracker",
-            closeOnEscape: true
-        });
+    // }
 
+    public hideCalendar() {
+        console.log("hide", this);
+        if (this.calendar.data("on") == 1) {
+            this.calendar.removeData("on");
+            this.calendar.fadeOut(100);
+        }
     }
 
     public showCalendar(date: KnockoutObservable<moment.Moment>, event: MouseEvent) {
-        let e = event.target;
+
         let options: JQueryUI.JQueryPositionOptions = {
             my: "center top",
             at: "center",
-            of: event.toElement
+            of: event.currentTarget
         };
 
-        let cal = $("#calendar");
-        cal.position();
-        cal.show();
+        if (this.calendar == undefined) {
+            this.calendar = $("#calendar").draggable();
+        }
+
+        let data = this.calendar.data("on");
+        if (data == undefined) {
+            this.calendar.fadeIn(150).position(options);
+            this.calendar.data("on", 1)
+        } else if (data == 1) {
+            this.calendar.position(options);
+        }
+
     }
-
-
 
 }
 

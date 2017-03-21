@@ -10,13 +10,14 @@
 
 </head>
 
-<body>
-    <div class="container">
+<body data-bind="click: hideCalendar">
+    <div class="calendarContainer"><div id="calendar">Calendar</div></div
+    
+    ><div class="container">
 
-        <div id="calendar">Calendar</div>
-        <div id="detail">Dialog<button>asdfasd</button> </div>
+
         
-        <div id="newBreak" data-bind="with: newBreakInput">
+        <!--<div id="newBreak" data-bind="with: newBreakInput">
             <div class="row">
                 <label for="txtFrom">From</label>
                 <input id="txtFrom" type="text" data-bind="value: from, click: $root.showCalendar.bind($root, from, event)">
@@ -43,7 +44,7 @@
                 <button data-bind="click: $root.cmdClose.bind($root)">Cancel</button>
                 <button class="default" data-bind="click: $root.cmdSave.bind($root)">Save</button>
             </div>
-        </div>
+        </div>-->
 
         <div class="caption">TimeTracker&trade;</div>
 
@@ -52,7 +53,7 @@
             <div class="cell duration">Duration</div>
         </div>
         <div data-bind="foreach: breaks">
-            <div class="row" data-bind="click: $parent.cmdDetail">
+            <div class="row" data-bind="click: $parent.showCalendar.bind($parent), clickBubble: false">
                 <div class="cell period" data-bind="html: txtPeriod"></div>
                 <div class="cell duration" data-bind="text: txtDuration"></div>
             </div>

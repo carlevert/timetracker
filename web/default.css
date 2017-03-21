@@ -165,12 +165,21 @@ textarea {
 #newBreak {
     width: 300px;
 }
-
+.calendarContainer {
+    position: relative;
+    height: 0px;
+    width: 0px;
+}
 #calendar {
     position: absolute;
+    display: none;
     background-color: white;
     border: 1px solid #ccc;
     z-index: 130;
     width: 200px;
     min-height: 200px;
+}
+
+.row:hover {
+    background-color: red;
 }
