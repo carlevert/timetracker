@@ -2,7 +2,8 @@ import axios from "axios";
 import * as ko from "knockout";
 import * as moment from "moment"
 import * as $ from "jquery";
-import "jquery-ui-dist/jquery-ui.min.js";
+import "./jquery-ui/jquery-ui.min.js";
+
 
 interface RegisterData {
     id: number;
@@ -73,6 +74,7 @@ class Break {
 
 class BreaksViewModel {
 
+
     public breaks = ko.observableArray<Break>();
     private $newDialog: JQuery;
 
@@ -84,6 +86,10 @@ class BreaksViewModel {
     };
 
     constructor() {
+        // axios.defaults.baseURL = "http://localhost:8080/",
+        axios.defaults.baseURL = "https://timetracker-160918.appspot.com/",
+            axios.defaults.timeout = 1000;
+
         this.fetch();
         this.$newDialog = $("#newBreak").dialog({
             position: {
@@ -102,8 +108,7 @@ class BreaksViewModel {
     }
 
     public fetch = () => {
-        // axios.get("https://timetracker-160918.appspot.com/list")
-        axios.get("http://localhost:8080/list")
+        axios.get("list")
             .then(response => {
                 this.breaks(response.data.map(item => new Break(item)));
                 console.log(response.data);
@@ -133,7 +138,7 @@ class BreaksViewModel {
             newBreak.userId = "timetracker";
             console.log(newBreak);
 
-            axios.post("http://localhost:8080/register", newBreak).then(response => {
+            axios.post("register", newBreak).then(response => {
                 console.log(response);
             }).catch(error => console.log(error));
 
@@ -162,6 +167,19 @@ class BreaksViewModel {
             closeOnEscape: true
         });
 
+    }
+
+    public showCalendar(date: KnockoutObservable<moment.Moment>, event: MouseEvent) {
+        let e = event.target;
+        let options: JQueryUI.JQueryPositionOptions = {
+            my: "center top",
+            at: "center",
+            of: event.toElement
+        };
+
+        let cal = $("#calendar");
+        cal.position();
+        cal.show();
     }
 
 

@@ -13,12 +13,13 @@
 <body>
     <div class="container">
 
+        <div id="calendar">Calendar</div>
         <div id="detail">Dialog<button>asdfasd</button> </div>
         
         <div id="newBreak" data-bind="with: newBreakInput">
             <div class="row">
                 <label for="txtFrom">From</label>
-                <input id="txtFrom" type="text" data-bind="value: from">
+                <input id="txtFrom" type="text" data-bind="value: from, click: $root.showCalendar.bind($root, from, event)">
             </div>
             <div class="row">
                 <label for="txtTo">To</label>
