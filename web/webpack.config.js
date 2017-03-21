@@ -1,5 +1,4 @@
 var path = require("path");
-var webpack = require("webpack");
 
 module.exports = {
     entry: [
@@ -27,11 +26,7 @@ module.exports = {
             }
         ]
     },
-    plugins: [
-        // new webpack.ProvidePlugin({
-        //     JQueryUI: "./node_modules/jquery-ui-dist/jquery-ui.min.js"
-        // })
-    ],
+
     devServer: {
         contentBase: path.join(__dirname, "./")
     },

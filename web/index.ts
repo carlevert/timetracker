@@ -2,7 +2,9 @@ import axios from "axios";
 import * as ko from "knockout";
 import * as moment from "moment"
 import * as $ from "jquery";
-import "jquery-ui/ui/widgets/dialog";
+import "jquery-ui/ui/widgets/draggable";
+import "jquery-ui/ui/position";
+
 
 interface RegisterData {
     id: number;
@@ -186,7 +188,7 @@ class BreaksViewModel {
         if (this.calendar == undefined) {
             this.calendar = $("#calendar").draggable();
         }
-
+ 
         let data = this.calendar.data("on");
         if (data == undefined) {
             this.calendar.fadeIn(150).position(options);
